@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import Burger from '../../components/Layout/Burger/Burger'
+import Burger from '../../components/Burger/Burger'
 
 
 class BurgerBuilder extends React.Component {
