@@ -10,7 +10,7 @@ class BurgerIngredient extends React.Component {
 
     render () {  
         let ingredient = null;
-            switch (this.props.type) {
+            switch (this.props.type) { 
         case ('bread-bottom'):
             ingredient = <div className={clasess.BreadBottom}></div>;
             break;
