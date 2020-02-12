@@ -12,5 +12,9 @@ code {
     monospace;
 }
 
+* {
+  list-style-type: none;
+}
+
 
 

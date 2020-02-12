@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import Burger from '../../components/Burger/Burger'
 import BuildControls from '../../components/Burger/BuildControls/BuildControls'
 import Modal from '../../components/UI/Modal/Modal'
+import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary'
 
 const ingredientPrices = {
     salad: 0.4,
@@ -90,7 +91,7 @@ class BurgerBuilder extends React.Component {
       
         return (
             <>
-            <Modal />
+            <Modal> <OrderSummary ingredients = {this.state.ingredients}/> </Modal>
             <Burger ingredients = {this.state.ingredients}/>
             <BuildControls updatedIngredients= {this.addIngredientHandler}
             removeIngredientHandler = {this.removeIngredientHandler} 

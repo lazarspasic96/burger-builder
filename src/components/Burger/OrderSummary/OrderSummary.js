@@ -1,13 +1,21 @@
 import React from 'react'
 
 
+
 const OrderSummary = (props) => {
-    let IngridientSummary = Object.keys(props.ingredients)
+    const IngridientSummary = Object.keys(props.ingredients)
     .map(igKey => {
-    <li><span>{igKey}</span>: {props.ingredients[igKey]}</li>
-    });
+    return <li key = {igKey}><span style = {{textTransform: 'capitalize' }}>{igKey}</span>: {props.ingredients[igKey]}</li>
+    })
+
     return <>
-    <ul>{IngridientSummary}</ul>
+    <h1>Your Order</h1>
+    
+    <p>A delicious burger with the following ingredients:</p>
+    {IngridientSummary}
+
+    <p>Continue to Checkout?</p>
+
     
 
     </>
