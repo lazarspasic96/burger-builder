@@ -96,7 +96,7 @@ class BurgerBuilder extends React.Component {
             }
       
         return (
-            <>
+            <>  
           <Modal show = {this.state.purchasing}> 
                 <OrderSummary ingredients = {this.state.ingredients}/> 
             </Modal> 
