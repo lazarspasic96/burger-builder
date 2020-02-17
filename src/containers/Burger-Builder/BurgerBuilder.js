@@ -26,9 +26,7 @@ class BurgerBuilder extends React.Component {
         }
     }
 
-            purchaseHandler = () => {
-            this.setState({purchasing: true})
-    }
+
            addIngredientHandler = (type) => {
             const oldCount = this.state.ingredients[type]
             const updatedCount = oldCount + 1;
@@ -83,7 +81,13 @@ class BurgerBuilder extends React.Component {
 
        
         }
-
+            purchaseHandler = () => {
+            this.setState({purchasing: true})
+    }
+      
+            cancelBackdropHandler = () => {
+            this.setState({purchasing: false})
+    }
       
 
     render () {
@@ -97,7 +101,7 @@ class BurgerBuilder extends React.Component {
       
         return (
             <>  
-          <Modal show = {this.state.purchasing}> 
+          <Modal show = {this.state.purchasing} clicked = {this.cancelBackdropHandler}> 
                 <OrderSummary ingredients = {this.state.ingredients}/> 
             </Modal> 
             <Burger ingredients = {this.state.ingredients}/>
