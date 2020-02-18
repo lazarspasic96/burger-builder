@@ -1,4 +1,6 @@
 import React from 'react'
+import Button from '../../UI/Button/Button'
+
 
 
 
@@ -15,11 +17,8 @@ const OrderSummary = (props) => {
     {IngridientSummary}
 
     <p>Continue to Checkout?</p>
-    <button>CANCEL</button>
-    <button>CHECKOUT</button>
-
-    
-
+    <Button btnType = 'Danger' clicked = {props.cancel}>Cancel</Button>
+    <Button btnType = 'Success' clicked = {props.continue}>Continue</Button>
     </>
 }
 
