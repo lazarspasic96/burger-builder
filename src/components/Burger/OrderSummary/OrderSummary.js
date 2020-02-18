@@ -15,6 +15,8 @@ const OrderSummary = (props) => {
     {IngridientSummary}
 
     <p>Continue to Checkout?</p>
+    <button>CANCEL</button>
+    <button>CHECKOUT</button>
 
     
 
