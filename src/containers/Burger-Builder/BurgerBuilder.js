@@ -4,6 +4,7 @@ import BuildControls from '../../components/Burger/BuildControls/BuildControls'
 import Modal from '../../components/UI/Modal/Modal'
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary'
 
+
 const ingredientPrices = {
     salad: 0.4,
     bacon: 0.6,
@@ -102,15 +103,21 @@ class BurgerBuilder extends React.Component {
         for(let key in disabledInfo) {
                 disabledInfo[key] =   disabledInfo[key] <= 0   
             }
-      
+        
+
+
+        
         return (
             <>  
-          <Modal show = {this.state.purchasing} clicked = {this.cancelBackdropHandler}> 
+         {this.state.purchasing 
+         ?  <Modal show = {this.state.purchasing} clicked = {this.cancelBackdropHandler}> 
                 <OrderSummary ingredients = {this.state.ingredients} 
                 cancel = {this.cancelBackdropHandler}
                 continue = {this.purchaseContinueHandler}
                 price = {this.state.totalPrice}/> 
             </Modal> 
+            : <Modal /> } 
+
             <Burger ingredients = {this.state.ingredients}/>
             <BuildControls updatedIngredients= {this.addIngredientHandler}
             removeIngredientHandler = {this.removeIngredientHandler} 
