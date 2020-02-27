@@ -3,12 +3,13 @@ import burgerLogo from '../../../../../assets/images/burger-logo.png'
 import classes from './Logo.module.css';
 
 
-const logo = (logo) => {
 
-    return <div className={classes.Logo}>
+const Logo = (props) => {
+
+    return <div className={classes.Logo} style = { {height: props.height, marginBottom: props.marginBottom}}>
        <img  src={burgerLogo}/>
         </div>
 }
 
 
-export default logo;
+export default Logo;
