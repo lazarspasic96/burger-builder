@@ -3,16 +3,37 @@ import clasess from './Layout.module.css'
 import Toolbar from '../UI/Navigation/Toolbar/Toolbar';
 import SideDrawer from '../UI/Navigation/SideDrawer/SideDrawer';
 
-const Layout = (props) => {
-   return <>
-   <Toolbar />
-   <SideDrawer />
+
+class Layout extends React.Component {
+     constructor(props) {
+          super(props) 
+          this.state = {
+               showSideDrawer: false
+          }
+     }
+
+     cancelBackdropHandler = () => {
+          this.setState({showSideDrawer: false})
+
+     }
+
+     showSideDrawerHandler = () => {
+          this.setState((prevState) =>{
+               return {showSideDrawer: !prevState.showSideDrawer}})
+     }
+
+     render () {
+             return <>
+   <Toolbar toggleButton = {this.showSideDrawerHandler} />
+   <SideDrawer open={this.state.showSideDrawer} closed = {this.cancelBackdropHandler}/>
    <main className={clasess.Content}>
-        {props.children}
+        {this.props.children}
    </main>
        
        </>
 }
+     }
+
 
 export default Layout;
 

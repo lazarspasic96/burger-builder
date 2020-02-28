@@ -6,16 +6,25 @@ import Backdrop from '../../BackDrop/Backdrop'
 
 
 const SideDrawer = (props) => {
+    let attachedClasses = [classes.SideDrawer, classes.Close];
+    props.open ? attachedClasses = [classes.SideDrawer, classes.Open] : attachedClasses = [classes.SideDrawer, classes.Close];
+
+
 
     return <>
-    <Backdrop  show />
-    <div className={classes.SideDrawer}>
+
+        
+ <Backdrop  show = {props.open} clicked = {props.closed} />
+    <div className= {attachedClasses.join(' ')}> 
+       
         <Logo height='11%' marginBottom='32px'/>
-        <nav>
+        <nav >
             <NavigationItems /> 
         </nav>
        
     </div>
+
+     
     </>
 }
 
