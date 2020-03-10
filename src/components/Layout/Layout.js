@@ -17,10 +17,16 @@ class Layout extends React.Component {
 
      }
 
-     showSideDrawerHandler = () => {
+   /*   showSideDrawerHandler = () => {
           this.setState((prevState) =>{
                return {showSideDrawer: !prevState.showSideDrawer}})
      }
+ */
+
+ showSideDrawerHandler = () => {
+      this.setState({showSideDrawer: true})
+ }
+
 
      render () {
              return <>
