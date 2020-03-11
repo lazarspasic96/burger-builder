@@ -5,6 +5,7 @@ import Modal from '../../components/UI/Modal/Modal'
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary'
 import instance from '../../services/HttpServices'
 import Spinner from '../../components/UI/Spinner/Spinner'
+import WithErrorHandler from '../../HOC/withErrorHandler/WithErrorHandler'
 
 
 const ingredientPrices = {
@@ -17,16 +18,17 @@ class BurgerBuilder extends React.Component {
     constructor(props) {
         super(props) 
         this.state = {
-            ingredients: {
+            ingredients: null, /* {
                 salad: 0,
                 bacon: 0,
                 cheese: 0,
                 meat: 0
-            },
+            }, */
             totalPrice: 4,
             purchasable: false,
             purchasing: false,
-            loading: false
+            loading: false,
+            error: null
         }
     }
 
@@ -100,14 +102,31 @@ class BurgerBuilder extends React.Component {
                 ingredients: this.state.ingredients,
                 price: this.state.price
             }
-          instance.post('orders.json', order)
+          instance.post('/orders.json', order)
           .then(res =>  this.setState({loading: false,  purchasing: false}))
+          .catch(error => {
+            console.log(error);
+            this.setState({loading: false, purchasing: false});
+          });
+        
           
         }
-      
+
+
+        componentDidMount () {
+            instance.get('https://react-burger-bf3f8.firebaseio.com/orders/ingridients.json')
+            .then(res =>this.setState({ingredients: res.data}))
+            .catch(error => this.setState({error : true}))
+        }
+
 
     render () {
-       
+
+        if(this.state.ingredients === null) {
+            return this.state.error ? <p>Something is wrong. Please try again later!</p> : <Spinner />
+        }
+  
+ 
         const disabledInfo = {
             ...this.state.ingredients
         }
@@ -123,7 +142,10 @@ class BurgerBuilder extends React.Component {
             if(this.state.loading) {
                 orderSummary = <Spinner />;
             }
-        
+
+
+
+     
 
 
         
@@ -134,7 +156,9 @@ class BurgerBuilder extends React.Component {
               {orderSummary}
             </Modal> 
        
-            : <Modal /> } 
+            : null } 
+
+           
 
             <Burger ingredients = {this.state.ingredients}/>
             <BuildControls updatedIngredients= {this.addIngredientHandler}
@@ -148,4 +172,4 @@ class BurgerBuilder extends React.Component {
     }
 }
 
-export default BurgerBuilder
+export default WithErrorHandler (BurgerBuilder, instance)
