@@ -16,7 +16,7 @@ const ingredientPrices = {
 }
 class BurgerBuilder extends React.Component {
     constructor(props) {
-        super(props) 
+        super(props)
         this.state = {
             ingredients: null, /* {
                 salad: 0,
@@ -33,143 +33,160 @@ class BurgerBuilder extends React.Component {
     }
 
 
-           addIngredientHandler = (type) => {
-            const oldCount = this.state.ingredients[type]
-            const updatedCount = oldCount + 1;
-            const updatedIngredients = {
-                ...this.state.ingredients
-            }
-            updatedIngredients[type] = updatedCount
-            const priceAdition = ingredientPrices[type]
-            const newPrice = priceAdition + this.state.totalPrice
-            this.setState({
-                ingredients: updatedIngredients,
-                totalPrice: newPrice
-            })
-            this.updatePurchaseState(updatedIngredients);
-       
-          
+    addIngredientHandler = (type) => {
+        const oldCount = this.state.ingredients[type]
+        const updatedCount = oldCount + 1;
+        const updatedIngredients = {
+            ...this.state.ingredients
         }
+        updatedIngredients[type] = updatedCount
+        const priceAdition = ingredientPrices[type]
+        const newPrice = priceAdition + this.state.totalPrice
+        this.setState({
+            ingredients: updatedIngredients,
+            totalPrice: newPrice
+        })
+        this.updatePurchaseState(updatedIngredients);
 
-        removeIngredientHandler = (type) => {
-        
-            const oldCount = this.state.ingredients[type]
-            const updatedCount = oldCount - 1;
-            const updatedIngredients = {
-                ...this.state.ingredients
-            }
-            updatedIngredients[type] = updatedCount
-            const priceDeduction = ingredientPrices[type]
-            const newPrice = this.state.totalPrice - priceDeduction
-            this.setState({
-                ingredients: updatedIngredients,
-                totalPrice: newPrice
-            })
-            this.updatePurchaseState(updatedIngredients);
-            
 
-        }
-
-        updatePurchaseState = (ing) => {
-            const sumInngredients = {
-                ...ing
-            }
-           const sum =  Object.keys(sumInngredients)
-           .map(igKey => {
-               return sumInngredients[igKey]
-           })
-           .reduce((acc, curentval) => {
-               return acc + curentval
-
-           }, 0)
-
-           this.setState({purchasable: sum > 0})
-
-       
-        }
-            purchaseHandler = () => {
-            this.setState({purchasing: true})
-    }
-      
-            cancelBackdropHandler = () => {
-            this.setState({purchasing: false})
     }
 
-        purchaseContinueHandler = () => {
-            this.setState({loading: true})
+    removeIngredientHandler = (type) => {
 
-            let order = {
-                ingredients: this.state.ingredients,
-                price: this.state.price
-            }
-          instance.post('/orders.json', order)
-          .then(res =>  this.setState({loading: false,  purchasing: false}))
-          .catch(error => {
-            console.log(error);
-            this.setState({loading: false, purchasing: false});
-          });
-        
-          
+        const oldCount = this.state.ingredients[type]
+        const updatedCount = oldCount - 1;
+        const updatedIngredients = {
+            ...this.state.ingredients
+        }
+        updatedIngredients[type] = updatedCount
+        const priceDeduction = ingredientPrices[type]
+        const newPrice = this.state.totalPrice - priceDeduction
+        this.setState({
+            ingredients: updatedIngredients,
+            totalPrice: newPrice
+        })
+        this.updatePurchaseState(updatedIngredients);
+
+
+    }
+
+    updatePurchaseState = (ing) => {
+        const sumInngredients = {
+            ...ing
+        }
+        const sum = Object.keys(sumInngredients)
+            .map(igKey => {
+                return sumInngredients[igKey]
+            })
+            .reduce((acc, curentval) => {
+                return acc + curentval
+
+            }, 0)
+
+        this.setState({ purchasable: sum > 0 })
+
+
+    }
+    purchaseHandler = () => {
+        this.setState({ purchasing: true })
+    }
+
+    cancelBackdropHandler = () => {
+        this.setState({ purchasing: false })
+    }
+
+    purchaseContinueHandler = () => {
+
+        const queryParams = []
+
+        for (let i in this.state.ingredients) {
+            queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]))
         }
 
 
-        componentDidMount () {
-            instance.get('https://react-burger-bf3f8.firebaseio.com/orders/ingridients.json')
-            .then(res =>this.setState({ingredients: res.data}))
-            .catch(error => this.setState({error : true}))
-        }
+
+        const queryString = queryParams.join('&')
+
+        this.props.history.push({
+            pathname: '/checkout',
+            search: '?' + queryString
+
+        })
+
+        /*          this.setState({loading: true})
+     
+                 let order = {
+                     ingredients: this.state.ingredients,
+                     price: this.state.price
+                 }
+               instance.post('/orders.json', order)
+               .then(res =>  this.setState({loading: false,  purchasing: false}))
+               .catch(error => {
+                 console.log(error);
+                 this.setState({loading: false, purchasing: false});
+               });
+              */
+
+    }
 
 
-    render () {
+    componentDidMount() {
+        instance.get('https://react-burger-bf3f8.firebaseio.com/orders/ingridients.json')
+            .then(res => this.setState({ ingredients: res.data }))
+            .catch(error => this.setState({ error: true }))
+    }
 
-        if(this.state.ingredients === null) {
+
+    render() {
+
+        if (this.state.ingredients === null) {
             return this.state.error ? <p>Something is wrong. Please try again later!</p> : <Spinner />
         }
-  
- 
+
+
         const disabledInfo = {
             ...this.state.ingredients
         }
-        for(let key in disabledInfo) {
-                disabledInfo[key] =   disabledInfo[key] <= 0   
-            }
+        for (let key in disabledInfo) {
+            disabledInfo[key] = disabledInfo[key] <= 0
+        }
 
-            let orderSummary =    <OrderSummary ingredients = {this.state.ingredients} 
-            cancel = {this.cancelBackdropHandler}
-            continue = {this.purchaseContinueHandler}
-            price = {this.state.totalPrice}/> 
+        let orderSummary = <OrderSummary ingredients={this.state.ingredients}
+            cancel={this.cancelBackdropHandler}
+            continue={this.purchaseContinueHandler}
+            price={this.state.totalPrice} />
 
-            if(this.state.loading) {
-                orderSummary = <Spinner />;
-            }
-
-
-
-     
+        if (this.state.loading) {
+            orderSummary = <Spinner />;
+        }
 
 
-        
+
+
+
+
+
         return (
-            <>  
-         {this.state.purchasing 
-         ?  <Modal show = {this.state.purchasing} clicked = {this.cancelBackdropHandler}> 
-              {orderSummary}
-            </Modal> 
-       
-            : null } 
+            <>
+                {this.state.purchasing
+                    ? <Modal show={this.state.purchasing} clicked={this.cancelBackdropHandler}>
+                        {orderSummary}
+                    </Modal>
 
-           
+                    : null}
 
-            <Burger ingredients = {this.state.ingredients}/>
-            <BuildControls updatedIngredients= {this.addIngredientHandler}
-            removeIngredientHandler = {this.removeIngredientHandler} 
-            disabled = {disabledInfo}
-            price = {this.state.totalPrice}
-            orderDisabled = {!this.state.purchasable}
-            ordered = {this.purchaseHandler}/>
+
+
+                <Burger ingredients={this.state.ingredients} />
+                <BuildControls updatedIngredients={this.addIngredientHandler}
+                    removeIngredientHandler={this.removeIngredientHandler}
+                    disabled={disabledInfo}
+                    price={this.state.totalPrice}
+                    orderDisabled={!this.state.purchasable}
+                    ordered={this.purchaseHandler} />
             </>
         )
     }
 }
 
-export default WithErrorHandler (BurgerBuilder, instance)
+export default WithErrorHandler(BurgerBuilder, instance)
