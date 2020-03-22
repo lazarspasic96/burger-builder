@@ -4,6 +4,7 @@ import clasess from './Burger.module.css'
 import {withRouter} from 'react-router-dom'
 
 const Burger = (props) => {
+    
     let tranformedIngredients = Object.keys(props.ingredients)
     .map(igKey => {
         return [...Array(props.ingredients[igKey])].map((_, i) => {

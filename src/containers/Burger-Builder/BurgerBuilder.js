@@ -103,7 +103,7 @@ class BurgerBuilder extends React.Component {
             queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]))
         }
 
-
+                queryParams.push('price' + '=' + encodeURIComponent(this.state.totalPrice))
 
         const queryString = queryParams.join('&')
 
@@ -112,20 +112,6 @@ class BurgerBuilder extends React.Component {
             search: '?' + queryString
 
         })
-
-        /*          this.setState({loading: true})
-     
-                 let order = {
-                     ingredients: this.state.ingredients,
-                     price: this.state.price
-                 }
-               instance.post('/orders.json', order)
-               .then(res =>  this.setState({loading: false,  purchasing: false}))
-               .catch(error => {
-                 console.log(error);
-                 this.setState({loading: false, purchasing: false});
-               });
-              */
 
     }
 
