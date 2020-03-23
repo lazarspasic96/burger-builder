@@ -7,7 +7,7 @@ import ContactData from './ContactData/ContactData'
 class Checkout extends React.Component {
   
         initState = () => {
-            const queryInit = new URLSearchParams(
+        const queryInit = new URLSearchParams(
               this.props.location.search
             );
             const ingredientsInit = {};
@@ -51,7 +51,7 @@ class Checkout extends React.Component {
                 continueCheckout={this.continueCheckout} />
         </div> 
        <Route path = {this.props.match.url + '/contact-data'}
-       render = {(props) => <ContactData {...props} price = {this.totalPrice} ingredients={this.ingredients} />}/>
+       render = {(props) => <ContactData {...props} price = {this.state.totalPrice} ingredients={this.state.ingredients} />}/>
 
         
 

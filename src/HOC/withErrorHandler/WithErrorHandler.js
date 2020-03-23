@@ -5,7 +5,7 @@ import instance from '../../services/HttpServices'
 
 const WithErrorHandler = (WrappedComponent, instance) => {
     return class extends React.Component {
-        constructor(props){
+       /*  constructor(props){
             super(props) 
             this.state = {
             error: null,
@@ -17,7 +17,25 @@ const WithErrorHandler = (WrappedComponent, instance) => {
            } 
             
         }
+        } */
+
+
+        state = {error: null};
+        reqInterceptor = instance.interceptors.request.use(
+            req => {
+                this.setState({error: null});
+                return req;
+            }
+        );
+        resInterceptor = instance.interceptors.response.use(
+            res => res,
+            error => this.setState({error})
+        );
+        componentWillUnmount() {
+            instance.interceptors.request.eject(this.reqInterceptor);
+            instance.interceptors.response.eject(this.resInterceptor);
         }
+        errorConfirmedHandler = () => this.setState({error: null});
        
     
       

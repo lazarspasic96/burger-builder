@@ -1,7 +1,9 @@
 import React from 'react'
 import Button from '../../../components/UI/Button/Button'
 import instance from '../../../services/HttpServices'
-
+import WithErrorHandler from '../../../HOC/withErrorHandler/WithErrorHandler'
+import Input from '../../../components/UI/Input/Input'
+import classes from './ContactData.module.css'
 class ContactData extends React.Component {
     state = {
         loading: false,
@@ -14,7 +16,7 @@ class ContactData extends React.Component {
     }
 
     orderHandler = () => {
-        console.log(this.props.ingredients)
+       
                    this.setState({loading: true})
      
                  let order = {
@@ -35,13 +37,14 @@ class ContactData extends React.Component {
  
 
     render () {
-        return <div>
+        console.log(this.props.ingredients)
+        return <div className = {classes.ContactData}>
             <h4>Enter your ContactData</h4>
             <form>
-                <input type='text' name='name' placeholder = 'Your Name' />
-                <input type='text' name='name' placeholder = 'Your Name' />
-                <input type='text' name='name' placeholder = 'Your Name' />
-                <input type='text' name='name' placeholder = 'Your Name' />
+                <Input inputtype = 'input' type='text' name='name' placeholder = 'Your Name' />
+                <Input inputtype = 'input' type='text' name='name' placeholder = 'Your Name' />
+                <Input inputtype = 'input' type='text' name='name' placeholder = 'Your Name' />
+                <Input inputtype = 'input' type='text' name='name' placeholder = 'Your Name' />
             </form>
 
             <Button btnType='Success' clicked = {this.orderHandler}>ORDER</Button>
@@ -49,4 +52,4 @@ class ContactData extends React.Component {
     }
 }
 
-export default ContactData
+export default WithErrorHandler (ContactData, instance)
