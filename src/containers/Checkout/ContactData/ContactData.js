@@ -7,13 +7,20 @@ import classes from './ContactData.module.css'
 class ContactData extends React.Component {
     state = {
         loading: false,
-        name: '',
-        email: '',
-        address: {
+        
+            name: '',
             street: '',
-            zipcode: ''
-        }
+            zipCode: '',
+            country: '',
+            email: '',
+            deliveryMethod: 'fastest'
+
+
+
+      
+
     }
+      
 
     orderHandler = () => {
        
@@ -21,7 +28,10 @@ class ContactData extends React.Component {
      
                  let order = {
                      ingredients: this.props.ingredients,
-                     price: this.props.price
+                     price: this.props.price,
+                     name: this.state.name,
+                     email: this.state.email
+
                  }
                instance.post('/orders.json', order)
                .then(res =>  this.setState({loading: false}))
@@ -34,6 +44,13 @@ class ContactData extends React.Component {
               
     }
 
+    inputHandler = (e) => {
+     
+        const name = e.target.name;
+        const value = e.target.value;
+        this.setState({ [name]: value });
+    }
+
  
 
     render () {
@@ -41,10 +58,11 @@ class ContactData extends React.Component {
         return <div className = {classes.ContactData}>
             <h4>Enter your ContactData</h4>
             <form>
-                <Input inputtype = 'input' type='text' name='name' placeholder = 'Your Name' />
-                <Input inputtype = 'input' type='text' name='name' placeholder = 'Your Name' />
-                <Input inputtype = 'input' type='text' name='name' placeholder = 'Your Name' />
-                <Input inputtype = 'input' type='text' name='name' placeholder = 'Your Name' />
+                <Input inputtype = 'input' onChange = {this.inputHandler} type='text' name='name' placeholder = 'Your Name'  />
+                <Input inputtype = 'input' onChange = {this.inputHandler} type='text' name='email' placeholder = 'Your Email' />
+                <Input inputtype = 'input' onChange = {this.inputHandler} type='text' name='street' placeholder = 'Street' />
+                <Input inputtype = 'input' onChange = {this.inputHandler} type='text' name='postal' placeholder = 'Postal Code' />
+                <Input inputtype = 'input' onChange = {this.inputHandler} type='text' name='country' placeholder = 'Country' />
             </form>
 
             <Button btnType='Success' clicked = {this.orderHandler}>ORDER</Button>
