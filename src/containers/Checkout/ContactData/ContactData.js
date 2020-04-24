@@ -4,6 +4,7 @@ import instance from '../../../services/HttpServices'
 import WithErrorHandler from '../../../HOC/withErrorHandler/WithErrorHandler'
 import Input from '../../../components/UI/Input/Input'
 import classes from './ContactData.module.css'
+import {connect} from 'react-redux'
 class ContactData extends React.Component {
     state = {
         loading: false,
@@ -27,8 +28,8 @@ class ContactData extends React.Component {
                    this.setState({loading: true})
      
                  let order = {
-                     ingredients: this.props.ingredients,
-                     price: this.props.price,
+                     ingredients: this.props.ins,
+                     price: this.props.prc,
                      name: this.state.name,
                      email: this.state.email
 
@@ -69,5 +70,10 @@ class ContactData extends React.Component {
         </div>
     }
 }
-
-export default WithErrorHandler (ContactData, instance)
+const mapStateToProps = state => {
+    return {
+        ings: state.ingredients,
+        prc: state.totalPrice
+    }
+}
+export default connect(mapStateToProps)(WithErrorHandler (ContactData, instance))
