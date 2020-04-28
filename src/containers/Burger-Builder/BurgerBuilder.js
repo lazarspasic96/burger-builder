@@ -7,7 +7,7 @@ import instance from '../../services/HttpServices'
 import Spinner from '../../components/UI/Spinner/Spinner'
 import WithErrorHandler from '../../HOC/withErrorHandler/WithErrorHandler'
 import { connect } from 'react-redux'
-import * as actionTypes from '../../store/action'
+import * as actionTypes from '../../store/actions/actionTypes'
 
 class BurgerBuilder extends React.Component {
     constructor(props) {
