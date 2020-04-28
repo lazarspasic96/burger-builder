@@ -15,14 +15,8 @@ class ContactData extends React.Component {
             country: '',
             email: '',
             deliveryMethod: 'fastest'
-
-
-
-      
-
     }
       
-
     orderHandler = () => {
        
                    this.setState({loading: true})
@@ -32,7 +26,6 @@ class ContactData extends React.Component {
                      price: this.props.prc,
                      name: this.state.name,
                      email: this.state.email
-
                  }
                instance.post('/orders.json', order)
                .then(res =>  this.setState({loading: false}))
@@ -41,8 +34,7 @@ class ContactData extends React.Component {
                  this.setState({loading: false});
                });
 
-               this.props.history.push('/')
-              
+               this.props.history.push('/')          
     }
 
     inputHandler = (e) => {
@@ -51,9 +43,6 @@ class ContactData extends React.Component {
         const value = e.target.value;
         this.setState({ [name]: value });
     }
-
- 
-
     render () {
         console.log(this.props.ingredients)
         return <div className = {classes.ContactData}>
