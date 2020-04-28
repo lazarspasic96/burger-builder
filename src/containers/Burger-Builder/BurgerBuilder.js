@@ -7,7 +7,7 @@ import instance from '../../services/HttpServices'
 import Spinner from '../../components/UI/Spinner/Spinner'
 import WithErrorHandler from '../../HOC/withErrorHandler/WithErrorHandler'
 import { connect } from 'react-redux'
-import * as actionTypes from '../../store/actions/actionTypes'
+import * as burgerBuilderActions  from '../../store/index'
 
 class BurgerBuilder extends React.Component {
     constructor(props) {
@@ -157,8 +157,8 @@ const mapStateToProps = state => {
 
 const mapDispatcToProps = dispatch => {
     return {
-        onAddedIngredient: (ingName) => dispatch({ type: actionTypes.ADD_INGREDIENT, ingredientName: ingName }),
-        onRemoveIngredient: (ingName) => dispatch({ type: actionTypes.REMOVE_INGREDIENT, ingredientName: ingName })
+        onAddedIngredient: (ingName) => dispatch(burgerBuilderActions.addIngredient(ingName)),
+        onRemoveIngredient: (ingName) => dispatch(burgerBuilderActions.removeIngredient(ingName))
     }
 }
 
