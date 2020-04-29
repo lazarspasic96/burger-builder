@@ -1,6 +1,6 @@
 import React from 'react'
 import Modal from '../../components/UI/Modal/Modal'
-import instance from '../../services/HttpServices'
+
 
 
 const WithErrorHandler = (WrappedComponent, instance) => {
@@ -29,7 +29,7 @@ const WithErrorHandler = (WrappedComponent, instance) => {
         );
         resInterceptor = instance.interceptors.response.use(
             res => res,
-            error => this.setState({error})
+            error => this.setState({error: error.message})
         );
         componentWillUnmount() {
             instance.interceptors.request.eject(this.reqInterceptor);

@@ -1,6 +1,7 @@
 export  {
     addIngredient,
-    removeIngredient
+    removeIngredient,
+    initIngredients
 } from './actions/ActionCreators/burgerBuilder'
 
 export  {} from './actions/ActionCreators/order'
