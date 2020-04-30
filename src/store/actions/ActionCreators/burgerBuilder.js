@@ -1,5 +1,6 @@
 import * as actionTypes from '../actionTypes'
 import instance from '../../../services/HttpServices'
+import reducer from '../../reducers/order'
 
 export const addIngredient = (ingName) => {
     return {
@@ -29,9 +30,12 @@ const failedFetchIngredients = () => {
 }
 
 export const initIngredients = () => {
+    
     return dispatch => {
-        instance.get('https://react-burger-bf3f8.firebaseio.com/orders/ingridients.json')
+      
+        instance.get('https://react-burger-bf3f8.firebaseio.com/ingredients.json')
         .then(res => dispatch(fetchIngredients(res.data)))
         .catch(error => dispatch(failedFetchIngredients())) 
     }
 }
+

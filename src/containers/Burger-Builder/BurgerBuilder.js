@@ -108,7 +108,6 @@ class BurgerBuilder extends React.Component {
     render() {
 
         if (this.props.ings === null) {
-            console.log(this.props.error)
             return this.props.error ? <p>Something is wrong. Please try again later!</p> : <Spinner />
         }
 
@@ -149,9 +148,9 @@ class BurgerBuilder extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        ings: state.ingredients,
-        prc: state.totalPrice,
-        error: state.error
+        ings: state.burger.ingredients,
+        prc: state.burger.totalPrice,
+        error: state.burger.error
     }
 }
 

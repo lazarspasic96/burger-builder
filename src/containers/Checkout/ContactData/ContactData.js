@@ -4,65 +4,72 @@ import instance from '../../../services/HttpServices'
 import WithErrorHandler from '../../../HOC/withErrorHandler/WithErrorHandler'
 import Input from '../../../components/UI/Input/Input'
 import classes from './ContactData.module.css'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
+import * as actions from '../../../store/index'
+import Spinner from '../../../components/UI/Spinner/Spinner'
 class ContactData extends React.Component {
     state = {
         loading: false,
-        
-            name: '',
-            street: '',
-            zipCode: '',
-            country: '',
-            email: '',
-            deliveryMethod: 'fastest'
-    }
-      
-    orderHandler = () => {
-       
-                   this.setState({loading: true})
-     
-                 let order = {
-                     ingredients: this.props.ins,
-                     price: this.props.prc,
-                     name: this.state.name,
-                     email: this.state.email
-                 }
-               instance.post('/orders.json', order)
-               .then(res =>  this.setState({loading: false}))
-               .catch(error => {
-                 console.log(error);
-                 this.setState({loading: false});
-               });
 
-               this.props.history.push('/')          
+        name: '',
+        street: '',
+        zipCode: '',
+        country: '',
+        email: '',
+        deliveryMethod: 'fastest'
+    }
+
+    orderHandler = () => {
+
+
+        let order = {
+            ingredients: this.props.ingredients,
+            price: this.props.prc,
+            name: this.state.name,
+            email: this.state.email
+        }
+
+        this.props.onOrderBurger(order)
+     
     }
 
     inputHandler = (e) => {
-     
+
         const name = e.target.name;
         const value = e.target.value;
         this.setState({ [name]: value });
     }
-    render () {
-        console.log(this.props.ingredients)
-        return <div className = {classes.ContactData}>
-            <h4>Enter your ContactData</h4>
-            <form>
-                <Input inputtype = 'input' onChange = {this.inputHandler} type='text' name='name' placeholder = 'Your Name'  />
-                <Input inputtype = 'input' onChange = {this.inputHandler} type='text' name='email' placeholder = 'Your Email' />
-                <Input inputtype = 'input' onChange = {this.inputHandler} type='text' name='street' placeholder = 'Street' />
-                <Input inputtype = 'input' onChange = {this.inputHandler} type='text' name='postal' placeholder = 'Postal Code' />
-                <Input inputtype = 'input' onChange = {this.inputHandler} type='text' name='country' placeholder = 'Country' />
-            </form>
+    render() {
 
-            <Button btnType='Success' clicked = {this.orderHandler}>ORDER</Button>
+        let form = <form>
+            <Input inputtype='input' onChange={this.inputHandler} type='text' name='name' placeholder='Your Name' />
+            <Input inputtype='input' onChange={this.inputHandler} type='text' name='email' placeholder='Your Email' />
+            <Input inputtype='input' onChange={this.inputHandler} type='text' name='street' placeholder='Street' />
+            <Input inputtype='input' onChange={this.inputHandler} type='text' name='postal' placeholder='Postal Code' />
+            <Input inputtype='input' onChange={this.inputHandler} type='text' name='country' placeholder='Country' />
+        </form>
+
+        if (this.props.loading) {
+            form = <Spinner />
+        }
+        return <div className={classes.ContactData}>
+            <h4>Enter your ContactData</h4>
+                {form}
+            <Button btnType='Success' clicked={this.orderHandler}>ORDER</Button>
         </div>
     }
 }
 const mapStateToProps = state => {
     return {
-        ings: state.ingredients,
-        prc: state.totalPrice
+        prc: state.burger.totalPrice,
+        loading: state.order.loading,
+        purchased: state.order.purchased
     }
 }
-export default connect(mapStateToProps)(WithErrorHandler (ContactData, instance))
+
+const mapDispatchToprops = dispatch => {
+    return {
+        onOrderBurger: (orderData) => dispatch(actions.purchaseBurger(orderData))
+    }
+}
+export default connect(mapStateToProps, mapDispatchToprops)(WithErrorHandler(ContactData, instance))
