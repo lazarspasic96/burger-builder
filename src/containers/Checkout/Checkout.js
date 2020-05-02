@@ -40,8 +40,8 @@ class Checkout extends React.Component {
   }
 
   render() {
+    console.log(this.props.ings)
     let summary = <Redirect to='/' />
-
     if (this.props.ings) {
       summary = <div>
         <div>

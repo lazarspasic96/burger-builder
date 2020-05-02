@@ -23,13 +23,16 @@ class ContactData extends React.Component {
 
 
         let order = {
-            ingredients: this.props.ingredients,
+            ingredients: this.props.ings,
             price: this.props.prc,
             name: this.state.name,
             email: this.state.email
         }
 
+        console.log(this.props.ingredients)
+  
         this.props.onOrderBurger(order)
+        this.props.history.push('/')
      
     }
 
@@ -41,6 +44,7 @@ class ContactData extends React.Component {
     }
     render() {
 
+    
         let form = <form>
             <Input inputtype='input' onChange={this.inputHandler} type='text' name='name' placeholder='Your Name' />
             <Input inputtype='input' onChange={this.inputHandler} type='text' name='email' placeholder='Your Email' />
@@ -63,13 +67,13 @@ const mapStateToProps = state => {
     return {
         prc: state.burger.totalPrice,
         loading: state.order.loading,
-        purchased: state.order.purchased
+        ings: state.burger.ingredients
     }
 }
 
 const mapDispatchToprops = dispatch => {
     return {
-        onOrderBurger: (orderData) => dispatch(actions.purchaseBurger(orderData))
+        onOrderBurger: (orderData, redirect) => dispatch(actions.purchaseBurger(orderData, redirect))
     }
 }
 export default connect(mapStateToProps, mapDispatchToprops)(WithErrorHandler(ContactData, instance))
