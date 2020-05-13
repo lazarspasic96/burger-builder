@@ -10,3 +10,7 @@ export {
     fetchOrders
 
 } from './actions/ActionCreators/order'
+
+export {
+    auth
+} from './actions/ActionCreators/auth'
