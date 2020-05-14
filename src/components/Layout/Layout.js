@@ -2,6 +2,7 @@ import React from 'react'
 import clasess from './Layout.module.css'
 import Toolbar from '../UI/Navigation/Toolbar/Toolbar';
 import SideDrawer from '../UI/Navigation/SideDrawer/SideDrawer';
+import {connect} from  'react-redux'
 
 
 class Layout extends React.Component {
@@ -30,8 +31,8 @@ class Layout extends React.Component {
 
      render () {
              return <>
-   <Toolbar toggleButton = {this.showSideDrawerHandler} />
-   <SideDrawer open={this.state.showSideDrawer} closed = {this.cancelBackdropHandler}/>
+   <Toolbar  token = {this.props.token} toggleButton = {this.showSideDrawerHandler} />
+   <SideDrawer token = {this.props.token} open={this.state.showSideDrawer} closed = {this.cancelBackdropHandler}/>
    <main className={clasess.Content}>
         {this.props.children}
    </main>
@@ -40,7 +41,12 @@ class Layout extends React.Component {
 }
      }
 
+     const mapStateToProps = state => {
+          return {
+               token: state.auth.token
+          }
+     }
 
-export default Layout;
+export default connect(mapStateToProps)(Layout);
 
 

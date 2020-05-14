@@ -9,7 +9,7 @@ const Toolbar = (props) => {
        <HamburgerIcon clicked = {props.toggleButton} />
         <Logo height='80%'/>
         <nav className={classes.DesktopOnly}>
-            <NavigationItems/>
+            <NavigationItems token = {props.token}/>
             </nav>
         
     </header>

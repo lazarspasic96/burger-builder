@@ -19,7 +19,7 @@ const SideDrawer = (props) => {
        
         <Logo height='11%' marginBottom='32px'/>
         <nav >
-            <NavigationItems /> 
+            <NavigationItems token = {props.token} /> 
         </nav>
        
     </div>

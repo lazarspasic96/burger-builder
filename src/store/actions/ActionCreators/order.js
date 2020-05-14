@@ -15,10 +15,11 @@ import instance from '../../../services/HttpServices'
     }
 }
 
-export const purchaseBurger = (orderData) => {
+export const purchaseBurger = (orderData, token) => {
+    console.log(token)
     return dispatch => {
         dispatch(purchaseBurgerStart())
-        instance.post('https://react-burger-bf3f8.firebaseio.com/orders.json', orderData)
+        instance.post('/orders.json?auth=' + token, orderData)
         .then(res => dispatch(purchaseBurgerSucces(res.data)))
            .catch(error => {
           dispatch(purchaseBurgerFail(error))
@@ -52,10 +53,11 @@ export const fetchOrdersSucces = (fetchedOrders) => {
     }
 }
 
-export const fetchOrders = () => {
+export const fetchOrders = (token) => {
+    console.log(token)
     return dispatch => {
         dispatch(fetchOrdersStart())
-        instance.get('https://react-burger-bf3f8.firebaseio.com/orders.json')
+        instance.get('/orders.json?auth=' + token)
         .then(res => {
             const fetchedOrders = [];
             for (let key in res.data) {
