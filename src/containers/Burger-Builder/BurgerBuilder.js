@@ -69,7 +69,12 @@ class BurgerBuilder extends React.Component {
         return sum > 0
     }
     purchaseHandler = () => {
-        this.setState({ purchasing: true })
+        if (this.props.token) {
+                this.setState({ purchasing: true })
+        } else {
+                this.props.history.push('/auth')
+        }
+
     }
 
     cancelBackdropHandler = () => {
@@ -139,6 +144,7 @@ class BurgerBuilder extends React.Component {
                     removeIngredientHandler={this.props.onRemoveIngredient}
                     disabled={disabledInfo}
                     price={this.props.prc}
+                    isAuth = {this.props.token}
                     orderDisabled={!this.updatePurchaseState(this.props.ings)}
                     ordered={this.purchaseHandler} />
             </>
@@ -150,7 +156,8 @@ const mapStateToProps = state => {
     return {
         ings: state.burger.ingredients,
         prc: state.burger.totalPrice,
-        error: state.burger.error
+        error: state.burger.error,
+        token: state.auth.token
     }
 }
 

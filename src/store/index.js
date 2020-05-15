@@ -12,5 +12,6 @@ export {
 } from './actions/ActionCreators/order'
 
 export {
-    auth
+    auth,
+    logout
 } from './actions/ActionCreators/auth'
