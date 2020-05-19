@@ -7,23 +7,41 @@ import { Route, Switch } from 'react-router-dom'
 import Orders from './containers/Orders/Orders'
 import Auth from './containers/Auth/Auth'
 import Logout from './containers/Auth/Logout';
+import {connect} from 'react-redux'
+import * as actions from './store/index'
+import {withRouter} from 'react-router-dom'
 
-function App() {
-  return (
-    <div className="App">
-      <Layout>
-        <Switch>
-          <Route exact path='/' component={BurgerBuilder} />
-          <Route  path='/checkout' component={Checkout} />
-          <Route  path='/auth' component={Auth} />
-          <Route path='/my-orders' component={Orders} />
-          <Route path='/logout' component={Logout} />
-        
-        </Switch>
-      </Layout>
+class App extends React.Component {
 
-    </div>
-  );
+  componentDidMount = () => {
+    this.props.authStatusCheck()
+  }
+
+
+  render() {
+    return (
+      <div className="App">
+        <Layout>
+          <Switch>
+            <Route exact path='/' component={BurgerBuilder} />
+            <Route  path='/checkout' component={Checkout} />
+            <Route  path='/auth' component={Auth} />
+            <Route path='/my-orders' component={Orders} />
+            <Route path='/logout' component={Logout} />
+          
+          </Switch>
+        </Layout>
+  
+      </div>
+    );
+  }
+
 }
 
-export default App;
+const mapDispatchToProps = dispatch => {
+  return {
+    authStatusCheck: () => dispatch(actions.authCheckState())
+  }
+}
+
+export default withRouter(connect(null, mapDispatchToProps)(App));

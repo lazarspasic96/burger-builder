@@ -72,6 +72,7 @@ class BurgerBuilder extends React.Component {
         if (this.props.token) {
                 this.setState({ purchasing: true })
         } else {
+                this.props.setPath('/checkout')
                 this.props.history.push('/auth')
         }
 
@@ -166,6 +167,7 @@ const mapDispatcToProps = dispatch => {
         onAddedIngredient: (ingName) => dispatch(burgerBuilderActions.addIngredient(ingName)),
         onRemoveIngredient: (ingName) => dispatch(burgerBuilderActions.removeIngredient(ingName)),
         initIngredients: () => dispatch(burgerBuilderActions.initIngredients()),
+        setPath: (path) => dispatch(burgerBuilderActions.setAuthRedirectPath(path))
         
     }
 }
