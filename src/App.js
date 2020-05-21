@@ -3,13 +3,14 @@ import './App.css';
 import Layout from './components/Layout/Layout'
 import BurgerBuilder from './containers/Burger-Builder/BurgerBuilder'
 import Checkout from './containers/Checkout/Checkout'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import Orders from './containers/Orders/Orders'
 import Auth from './containers/Auth/Auth'
 import Logout from './containers/Auth/Logout';
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import * as actions from './store/index'
-import {withRouter} from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
+import reducer from './store/reducers/order';
 
 class App extends React.Component {
 
@@ -19,23 +20,48 @@ class App extends React.Component {
 
 
   render() {
-    return (
-      <div className="App">
-        <Layout>
-          <Switch>
-            <Route exact path='/' component={BurgerBuilder} />
-            <Route  path='/checkout' component={Checkout} />
-            <Route  path='/auth' component={Auth} />
-            <Route path='/my-orders' component={Orders} />
-            <Route path='/logout' component={Logout} />
-          
-          </Switch>
-        </Layout>
-  
-      </div>
-    );
-  }
 
+    let routes = (
+      <Switch>
+        <Route exact path='/' component={BurgerBuilder} />
+        <Route path='/auth' component={Auth} />
+        <Redirect to='/' />
+      </Switch>
+    )
+
+    if (this.props.token) {
+      routes = <Switch>
+        <Route exact path='/' component={BurgerBuilder} />
+        <Route path='/checkout' component={Checkout} />
+        <Route path='/my-orders' component={Orders} />
+        <Route path='/logout' component={Logout} />
+
+      </Switch>
+    }
+
+
+
+    
+    return <Layout>
+      {routes}
+    </Layout>
+
+  }
+}
+
+
+
+
+
+
+
+
+
+
+const mapStateToProps = state => {
+  return {
+    token: state.auth.token
+  }
 }
 
 const mapDispatchToProps = dispatch => {
@@ -44,4 +70,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default withRouter(connect(null, mapDispatchToProps)(App));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
