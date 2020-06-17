@@ -34,8 +34,8 @@ class App extends React.Component {
         <Route exact path='/' component={BurgerBuilder} />
         <Route path='/checkout' component={Checkout} />
         <Route path='/my-orders' component={Orders} />
+         <Route path='/auth' component={Auth} />
         <Route path='/logout' component={Logout} />
-
       </Switch>
     }
 
@@ -48,13 +48,6 @@ class App extends React.Component {
 
   }
 }
-
-
-
-
-
-
-
 
 
 
