@@ -116,7 +116,7 @@ class Auth extends React.Component {
 
         }
 
-         const form = updatedAuthForm.map(formElement => {
+         let form = updatedAuthForm.map(formElement => {
           
             return <Input
             key={formElement.id}
@@ -133,7 +133,8 @@ class Auth extends React.Component {
         })
 
         if(this.props.loading) {
-            form = <Spinner />
+            console.log('uso je u loading')
+             return form = <Spinner />
         }
 
         let errorMessage = null
@@ -143,6 +144,7 @@ class Auth extends React.Component {
         let authRedirect = null
 
         if (this.props.isAuth ) {
+
             authRedirect = <Redirect to = {this.props.redirectPath} />
         }
 
@@ -164,7 +166,7 @@ class Auth extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        auth: state.auth.loading,
+        loading: state.auth.loading,
         error: state.auth.error,
         isAuth: state.auth.token,
         redirectPath: state.auth.redirectPath,
